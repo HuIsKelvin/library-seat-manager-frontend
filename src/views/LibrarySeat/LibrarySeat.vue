@@ -27,24 +27,32 @@ export default {
     }
   },
   created() {
-    this.axios.get("/test")
-              .then(res => {console.log(res)})
-              .catch(err => {
-                console.log(err)
-              })
-    this.axios.get("/api/seat")
-              .then(res => {
-                console.log("seatList" + res)
-                let data = res.data
-                if(data.statusCode === 200) {
-                  this.seatList = res.data.data;
-                } else {
-                  console.log("[Error]")
-                }
-              })
-              .catch(err => {
-                console.log(err)
-              })
+    // this.axios.get("/api/seat")
+    //           .then(res => {
+    //             console.log("seatList" + res)
+    //             let data = res.data
+    //             if(data.statusCode === 200) {
+    //               this.seatList = res.data.data;
+    //             } else {
+    //               console.log("[Error]")
+    //             }
+    //           })
+    //           .catch(err => {
+    //             console.log(err)
+    //           })
+    this.$get("/api/seat")
+        .then(res => {
+          console.log("seatList" + res)
+          let data = res.data
+          if(data.statusCode === 200) {
+            this.seatList = res.data.data;
+          } else {
+            console.log("[Error]")
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
   },
   methods: {
     selectSeat(seatIndex) {

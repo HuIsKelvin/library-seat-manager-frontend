@@ -1,10 +1,6 @@
 <template>
   <div id="app">
-    <el-header></el-header>
-    <el-main>
-      <router-view/>
-    </el-main>
-    <el-footer></el-footer>
+    <router-view/>
   </div>
 </template>
 
@@ -12,18 +8,36 @@
 
 export default {
   name: 'app',
-  components: {
-  }
 }
 </script>
 
 <style>
+* {
+  box-sizing:border-box;
+  -moz-box-sizing:border-box; /* Firefox */
+  -webkit-box-sizing:border-box; /* Safari */
+}
+
+html,
+body {
+  margin: 0;
+  margin-top: 0;
+  padding: 0;
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  background-color: #f7f8fa;
+  margin: 0;
+  width: 100vh;
+  height: 100vh;
+}
+
+a {
+  text-decoration: none;
 }
 </style>

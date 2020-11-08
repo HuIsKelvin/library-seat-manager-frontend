@@ -3,9 +3,47 @@ Write your variables here. All available variables can be
 found in element-ui/packages/theme-chalk/src/common/var.scss.
 For example, to overwrite the theme color:
 */
-$--color-primary: teal;
+$--color-primary: rgb(43, 69, 219);
 
 /* icon font path, required */
 $--font-path: '~element-ui/lib/theme-chalk/fonts';
 
 @import "~element-ui/packages/theme-chalk/src/index";
+
+$color-white: #f1ecec;
+$color-black: rgb(14, 13, 13);
+
+/**
+ * @override 
+ * el-button
+ */
+.el-button, 
+.el-button–primary{
+  color: #fff;
+  background-color: #8B83D2;
+  border-color: #8B83D2;
+  // border-radius: 12px;
+  box-shadow: 0 8px 12px #ebedf0;
+
+  &:hover {
+    background-color: #1e98c9;
+    border-color: #0c84af;
+  }
+
+  &:focus {
+    background-color: #0ABBF9;
+    border-color: #0ABBF9;
+  }
+}
+
+/**
+ * @override 
+ * el-button
+ */
+.el-card {
+  border-radius: 12px;
+}
+.el-card.is-always-shadow.is-always-shadow {
+  border-radius: 12px;
+  box-shadow: 0 8px 12px #ebedf0;
+}

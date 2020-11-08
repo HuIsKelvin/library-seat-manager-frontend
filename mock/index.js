@@ -1,11 +1,26 @@
 const seatList = require('./seat.json');
 
 export default {
+    /**
+     * get the seat list
+     */
     'GET /api/seat': (req, res) => {
         return res.json(
             seatList
         )
     },
+
+    /**
+     * select seta
+     */
+    'POST /api/seat/select': (req, res) => {
+        const {studentID, seatID} = req.body;
+        return res.json({
+            statusCode: 200,
+            // 
+        })
+    },
+
     'GET /api/user': {
         username: 'admin',
         sex: 5,

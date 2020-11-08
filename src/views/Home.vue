@@ -1,18 +1,37 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="home">
+    <el-card class="pane">
+      <h1>图书馆选座系统</h1>
+      <el-button>
+        <router-link to="/seat">选座</router-link>
+
+      </el-button>
+      <el-button>离席</el-button>
+    </el-card>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+// import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld
+    // HelloWorld
   }
 }
 </script>
+
+<style lang="scss" scoped>
+#home {
+  position: relative;
+  margin: 0 auto;
+
+  .pane{
+    max-width: 50rem;
+    min-width: 35rem;
+    min-height: 20rem;
+  }
+}
+</style>
