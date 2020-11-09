@@ -1,6 +1,8 @@
 <template>
   <div id="library-seat">
     <h1>Library Seat Selection</h1>
+
+    <!-- 座位显示区域 -->
     <div id="seat-area">
       <template v-for="(seatItem, seatIndex) in seatList">
         <span 
@@ -12,6 +14,14 @@
         </span>
       </template>
     </div>
+
+    <!-- 显示当前选择的座位 -->
+    <div class="seat-selected-show">
+      已选择座位：
+      <span v-if="ifSelected">{{selectedSeatRow}} 行 {{selectedSeatCol}} 列</span>
+      <span v-else>无</span>
+    </div>
+
   </div>
 </template>
 
@@ -21,6 +31,8 @@ export default {
   data() {
     return {
       seatList: [],
+      ifSelected: false,
+      selectedIndex: -1,
       seatWidth: 5,
       seatHeight: 5,
       positionGap: 2
@@ -40,7 +52,7 @@ export default {
     //           .catch(err => {
     //             console.log(err)
     //           })
-    this.$get("/api/seat")
+    this.$get("/mock/seat/info")
         .then(res => {
           console.log("seatList" + res)
           let data = res.data
@@ -54,9 +66,51 @@ export default {
           console.log(err)
         })
   },
+  computed: {
+    selectedSeatRow() {
+      let result = "";
+      if(this.ifSelected) {
+        result = this.seatList[this.selectedIndex].row;
+      }
+      return result;
+    },
+    selectedSeatCol() {
+      let result = "";
+      if(this.ifSelected) {
+        result = this.seatList[this.selectedIndex].col;
+      }
+      return result;
+    },
+  },
   methods: {
+    /**
+     * 选择座位的 click 事件
+     */
     selectSeat(seatIndex) {
       console.log("seat index: " + seatIndex)
+      // 如果已选，则不能选别的，除非先取消
+      if(this.ifSelected && this.selectedIndex !== seatIndex) { 
+        this.$message({
+          message: "只能选择一个座位哦！",
+          type: "warning",
+          duration: 1000,
+          showClose: true
+        })
+        // return;
+      }
+      else if(this.selectedIndex === seatIndex) {
+        // 取消已选的座位
+        this.ifSelected = false;
+        this.selectedIndex = -1;
+        // this.seatList[this.selectedIndex].icon = ...;
+      } else {
+        // 选择新的座位
+        if(seatIndex < 0 || seatIndex >= this.seatList.length) { return; }  // 边界情况
+
+        this.ifSelected = true;
+        this.selectedIndex = seatIndex;
+        // this.seatList[this.selectedIndex].icon = ...;
+      }
     }
   }
 }

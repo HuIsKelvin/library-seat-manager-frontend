@@ -4,7 +4,7 @@ export default {
     /**
      * get the seat list
      */
-    'GET /api/seat': (req, res) => {
+    'GET /mock/seat/info': (req, res) => {
         return res.json(
             seatList
         )
@@ -13,7 +13,7 @@ export default {
     /**
      * select seta
      */
-    'POST /api/seat/select': (req, res) => {
+    'POST /mock/seat/select': (req, res) => {
         const {studentID, seatID} = req.body;
         return res.json({
             statusCode: 200,
