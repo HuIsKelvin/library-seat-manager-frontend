@@ -4,9 +4,10 @@
       <h1>图书馆选座系统</h1>
       <el-button>
         <router-link to="/seat">选座</router-link>
-
       </el-button>
-      <el-button>离席</el-button>
+      <el-button>
+        <router-link to="/leave">离席</router-link>
+      </el-button>
     </el-card>
   </div>
 </template>

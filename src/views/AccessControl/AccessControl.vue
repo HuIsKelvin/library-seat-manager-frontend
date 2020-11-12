@@ -60,7 +60,7 @@ export default {
       this.$refs["ruleForm"].validate(valid => {
         if(valid) {
           // 可以发送表单
-          this.$post('/enterLib', {
+          this.$post('/leaveLib', {
             "studentID": this.ruleForm.studentID
           }).then(res => {
             let data = res.data;
