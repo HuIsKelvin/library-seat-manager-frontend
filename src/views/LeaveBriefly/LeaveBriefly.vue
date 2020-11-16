@@ -1,7 +1,18 @@
 <template>
   <div id="leave-briefly">
-    <el-form>
-      <el-input v-model="studentID" :placeholder="placeholder"></el-input>
+    <el-form
+      class="el-form-studentID"
+      :model="ruleForm" 
+      :rules="rules" 
+      ref="ruleForm"
+      @submit.native.prevent>
+      <el-form-item>
+        <el-input 
+          v-model.number="ruleForm.studentID" 
+          :placeholder="placeholder"
+          class="el-input-studentID"
+        ></el-input>
+      </el-form-item>
       <el-button @click="LeaveBriefly">短暂离席</el-button>
       <el-button @click="releaseSeat">释放座位</el-button>
     </el-form>
@@ -14,7 +25,15 @@ export default {
   data() {
     return {
       placeholder: "请输入学号",
-      studentID: ""
+      ruleForm: {
+        studentID: "",
+      },
+      rules: {
+        studentID: [
+          // { required: true, message: '请输入学号', trigger: 'blur' },
+          {type:'number', message:'请输入数字', trigger: 'change'}
+        ]
+      }
     }
   },
   methods: {

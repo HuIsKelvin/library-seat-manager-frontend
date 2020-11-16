@@ -30,6 +30,7 @@ export default {
   margin: 0 auto;
 
   .pane{
+    margin: 0 auto;
     max-width: 50rem;
     min-width: 35rem;
     min-height: 20rem;

@@ -1,6 +1,5 @@
 import Vue from 'vue';
-import axios from "axios";
-// import { reject, resolve } from 'core-js/fn/promise';
+// import axios from "axios";
 
 /**
  * 封装 get()
@@ -10,7 +9,8 @@ import axios from "axios";
  */
 function get(url, params = {}) {
   return new Promise((resolve, reject) => {
-    axios.get(url, {
+    this.axios.get(url, {
+    // axios.get(url, {
       params: params
     }).then(res => {
       resolve(res)
@@ -28,7 +28,8 @@ function get(url, params = {}) {
  */
 function post (url, data = {}) {
   return new Promise((resolve, reject) => {
-    axios.post(url, data)
+    this.axios.post(url, data)
+    // axios.post(url, data)
       .then(response => {
         resolve(response.data)
       }, err => {

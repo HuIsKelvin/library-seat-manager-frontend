@@ -33,7 +33,7 @@ body {
   color: #2c3e50;
   background-color: #f7f8fa;
   margin: 0;
-  width: 100vh;
+  width: 100%;
   height: 100vh;
 }
 
