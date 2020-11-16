@@ -56,6 +56,7 @@ export default {
         icon_unused: require("./../../assets/logo.png"),
         icon_used: require("./../../assets/logo.png"),
         icon_selected: require("./../../assets/logo.png"),
+        icon_broken: require("./../../assets/logo.png"),
       }
     }
   },
@@ -102,10 +103,10 @@ export default {
           console.log(data);
           if(data.statusCode == 200) {
             let seatList = data.seatList;
-            seatList.forEach(seatItem => {
-              // operations
-              console.log(seatItem)
-            })
+            // seatList.forEach(seatItem => {
+            //   // operations
+            //   console.log(seatItem)
+            // })
             this.seatList = seatList;
           } else {
             console.log("[Error]")
@@ -127,6 +128,11 @@ export default {
       const seatIndex = index;
       console.log(`${seatID}, ${seatIndex}`)
 
+      // 座位已选或离席
+      if(this.seatList[seatIndex].status !== 0) {
+        return;
+      }
+
       /**
        * 点击座位
        * 如果已选，点别的座位，先取消再选
@@ -134,27 +140,21 @@ export default {
       // 如果已选，则不能选别的，除非先取消
       if(this.ifSelected && this.selectedIndex !== seatIndex) { 
         this.seatReset();
-        // this.$message({
-        //   message: "只能选择一个座位哦！",
-        //   type: "warning",
-        //   duration: 1000,
-        //   showClose: true
-        // })
-        // return;
       }
       
       if(this.selectedIndex === seatIndex) {
         // 取消已选的座位
-        this.ifSelected = false;
-        this.selectedIndex = -1;
-        // this.seatList[this.selectedIndex].icon = ...;
+        // this.ifSelected = false;
+        // this.seatList[this.selectedIndex].status = 0; // change status to selected
+        // this.selectedIndex = -1;
+        this.seatReset();
       } else {
         // 选择新的座位
         if(seatIndex < 0 || seatIndex >= this.seatList.length) { return; }  // 边界情况
 
         this.ifSelected = true;
         this.selectedIndex = seatIndex;
-        // this.seatList[this.selectedIndex].icon = ...;
+        this.seatList[this.selectedIndex].status = 3; // change status to selected
       }
     },
 
@@ -199,7 +199,7 @@ export default {
     seatReset() {
       if(this.ifSelected) {
         // 修改图标
-        // this.seatList[this.selectedIndex].icon = ...;
+        this.seatList[this.selectedIndex].status = 0; // change status to unused
       }
       this.ifSelected = false;
       this.selectedIndex = -1;

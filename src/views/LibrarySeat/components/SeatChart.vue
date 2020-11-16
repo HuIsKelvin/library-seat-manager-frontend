@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import {createSeatAreaOption} from './../../../util/createSeatAreaOption';
+import { createSeatAreaOption } from './../../../util/createSeatAreaOption';
 
 export default {
   name: "chart",
@@ -27,11 +27,9 @@ export default {
   },
   watch: {
     chartData: {
-      handler: function(val, oldVal) {
-          console.log(val)
-          console.log(oldVal)
+      handler: function(val) {
           this.option = createSeatAreaOption(val);
-          this.chartInstance.setOption(this.option);
+          this.chartInstance.setOption(this.option, { notMerge: false });
       },
       deep: true
     }
@@ -41,7 +39,7 @@ export default {
       this.chartInstance = this.$echarts.init(document.getElementById(this.chartId));
       // get the option
       this.option = createSeatAreaOption(this.chartData);
-      console.log("option: "+ this.option);
+      // console.log("option: "+ this.option);
       // create Echarts instance
       this.chartInstance.setOption(this.option);
       // register the click event
