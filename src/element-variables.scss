@@ -20,6 +20,14 @@ $box-shadow: 5px 5px 12px #ebedf0;
 
 /**
  * @override 
+ * el-header
+ */
+.el-header {
+  padding: 0;
+}
+
+/**
+ * @override 
  * el-button
  */
  .el-button, 

@@ -46,14 +46,16 @@ export default {
     enterLib() {
       this.$refs["ruleForm"].validate(valid => {
         if(valid) {
-          this.$post('/enterLib', {
+          this.$post('/api/enterLib', {
             studentID: this.ruleForm.studentID
           }).then(res=>{
-            if(res.statusCode == 200 && res.data.statusCode == 200) {
-              let id = res.data.studentID;
+            console.log(res)
+            if(res.statusCode == 200) {
+            // if(res.statusCode == 200 && res.data.statusCode == 200) {
+              // let id = res.data.studentID;
               this.$message({
                 type: "info",
-                message: `学生（${id}）进入图书馆！`
+                message: '进入图书馆！'
               })
               this.$refs["ruleForm"].resetFields();   // 发送成功后，重置表单
             }
@@ -71,15 +73,15 @@ export default {
       this.$refs["ruleForm"].validate(valid => {
         if(valid) {
           // send post
-          this.$post('/leaveLib', {
+          this.$post('/api/leaveLib', {
             "studentID": this.ruleForm.studentID
           }).then(res => {
-            let data = res.data;
-            if(res.status === 200 && data.statusCode === 200) {
-              let id = res.data.studentID;
+            // let data = res.data;
+            if(res.statusCode === 200) {
+              // let id = res.data.studentID;
               this.$message({
                 type: "info",
-                message: `学生（${id}）离开图书馆！`
+                message: `离开图书馆！`
               })
               this.$refs["ruleForm"].resetFields();   // 发送成功后，重置表单
             } else {

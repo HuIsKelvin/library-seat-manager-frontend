@@ -1,10 +1,10 @@
 <template>
   <div id="library-seat">
-    <el-header>
+    <el-header class="header">
       <MyHeader></MyHeader>
     </el-header>
     
-    <el-container>
+    <el-container class="container">
       <router-view></router-view>
     </el-container>
   </div>
@@ -22,5 +22,10 @@ export default {
 </script>
 
 <style lang="scss">
+#library-seat {
 
+  .container {
+    height: calc(100vh - 60px);
+  }
+}
 </style>
