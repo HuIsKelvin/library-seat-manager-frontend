@@ -70,7 +70,7 @@ export default {
     leaveLib() {
       this.$refs["ruleForm"].validate(valid => {
         if(valid) {
-          // 可以发送表单
+          // send post
           this.$post('/leaveLib', {
             "studentID": this.ruleForm.studentID
           }).then(res => {
