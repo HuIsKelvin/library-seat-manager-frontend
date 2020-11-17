@@ -1,6 +1,12 @@
 <template>
   <div id="header">
-    header
+    <el-row>
+      <span>选座系统</span>
+    </el-row>
+    <el-row>
+      <router-link to="">选座</router-link>
+      <router-link to="">离席</router-link>
+    </el-row>
   </div>
 </template>
 

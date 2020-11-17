@@ -1,7 +1,12 @@
 <template>
   <div id="library-seat">
-    <MyHeader></MyHeader>
-    <router-view></router-view>
+    <el-header>
+      <MyHeader></MyHeader>
+    </el-header>
+    
+    <el-container>
+      <router-view></router-view>
+    </el-container>
   </div>
 </template>
 

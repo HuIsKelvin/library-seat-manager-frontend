@@ -52,16 +52,24 @@ export default {
       seatWidth: 5,
       seatHeight: 5,
       positionGap: 2,
-      icon: {
-        icon_unused: require("./../../assets/logo.png"),
-        icon_used: require("./../../assets/logo.png"),
-        icon_selected: require("./../../assets/logo.png"),
-        icon_broken: require("./../../assets/logo.png"),
-      }
+      // icon: {
+      //   icon_unused: require("./../../assets/logo.png"),
+      //   icon_used: require("./../../assets/logo.png"),
+      //   icon_selected: require("./../../assets/logo.png"),
+      //   icon_broken: require("./../../assets/logo.png"),
+      // }
     }
   },
   created() {
     this.getSeatList();
+
+    // get the student id from param of route
+    let routeStudentID = this.$route.params.studentID;
+    if(!routeStudentID) {
+      // route to the login page
+    } else {
+      this.studentID = this.$route.params.studentID;
+    }
   },
   beforeMounted() {
   },
@@ -85,10 +93,6 @@ export default {
     },
   },
   methods: {
-    clickTest(seatData) {
-      console.log("on event");
-      console.log(seatData);
-    },
 
     /**
      * 获取座位信息
@@ -170,6 +174,7 @@ export default {
         return;
       }
       // 弹框，确认选座
+      // this.$dialog.
 
       // loading
 
