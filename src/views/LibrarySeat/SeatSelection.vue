@@ -13,7 +13,12 @@
       </div>
     </div> -->
 
-    <SeatChart :chartData="seatList" @seatClick="seatClick"></SeatChart>
+    <SeatChart 
+      :chartData="seatList" 
+      @seatClick="seatClick"
+      v-loading="loading"
+      element-loading-background="rgba(250, 250, 250, 0.5)"
+    ></SeatChart>
 
     <!-- 显示当前选择的座位 -->
     <div class="seat-selected-show">
@@ -52,6 +57,7 @@ export default {
       seatWidth: 5,
       seatHeight: 5,
       positionGap: 2,
+      loading: true,
       // icon: {
       //   icon_unused: require("./../../assets/logo.png"),
       //   icon_used: require("./../../assets/logo.png"),
@@ -61,12 +67,14 @@ export default {
     }
   },
   created() {
+    this.loading = true;
     this.getSeatList();
 
     // get the student id from param of route
     let routeStudentID = this.$route.params.studentID;
     if(!routeStudentID) {
       // route to the login page
+      this.$router.push({ name: "Login", params: { toRouteName: "SeatSelect" }})
     } else {
       this.studentID = this.$route.params.studentID;
     }
@@ -98,14 +106,13 @@ export default {
      * 获取座位信息
      */
     getSeatList() {
-      console.log("[Log] begin to get seat list");
-      // this.$get("/seat/info")
+      this.loading = true;
+
       this.$get("/api/seat/info")
         .then(res => {
-          console.log("seatList");
           let data = res.data;
-          console.log(data);
           if(data.statusCode == 200) {
+            this.loading = false;
             let seatList = data.seatList;
             // seatList.forEach(seatItem => {
             //   // operations
@@ -115,9 +122,12 @@ export default {
           } else {
             console.log("[Error]")
           }
-        })
-        .catch(err => {
+        }).catch(err => {
           console.log(err)
+          this.$notify.error({
+          title: '错误',
+          message: '请求出错！'
+        });
         })
     },
 

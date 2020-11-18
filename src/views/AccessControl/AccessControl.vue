@@ -77,6 +77,7 @@ export default {
             "studentID": this.ruleForm.studentID
           }).then(res => {
             // let data = res.data;
+            console.log(res);
             if(res.statusCode === 200) {
               // let id = res.data.studentID;
               this.$message({

@@ -56,25 +56,26 @@ export default {
     let routeStudentID = this.$route.params.studentID;
     if(!routeStudentID) {
       // route to the login page
+      this.$router.push({ name: "Login", params: { toRouteName: 'Leave' }})
     } else {
       this.studentID = this.$route.params.studentID;
     }
 
-    this.$get('', {
-      studentID: this.studentID
-    }).then(res => {
-      if(res.statusCode == 200 && res.data.statusCode == 200) {
-        this.seatInfo = res.data.data;
-      } else {
-        // err 
-      }
-    }).catch(err => {
-      console.log(err)
-      this.$message({
-        type: 'warning',
-        message: '服务器出错！'
-      }); 
-    })
+    // this.$get('', {
+    //   studentID: this.studentID
+    // }).then(res => {
+    //   if(res.statusCode == 200 && res.data.statusCode == 200) {
+    //     this.seatInfo = res.data.data;
+    //   } else {
+    //     // err 
+    //   }
+    // }).catch(err => {
+    //   console.log(err)
+    //   this.$message({
+    //     type: 'warning',
+    //     message: '服务器出错！'
+    //   }); 
+    // })
   },
   methods: {
     /**
@@ -95,9 +96,10 @@ export default {
             type: 'warning'
           })
           .then(() => {
-            this.$post('/seat/leaveBriefly', {
+            this.$post('/api/seat/leave', {
               studentID: this.studentID
             }).then(res => {
+              console.log("leave requeset sended!")
               if(res.statusCode == 200 && res.data.statusCode == 200) {
                 this.$message({
                   type: 'info',

@@ -1,5 +1,6 @@
 <template>
   <div id="Login">
+    <h1>请先登录</h1>
     <el-form
       class="el-form-studentID"
       :model="ruleForm" 
@@ -13,7 +14,7 @@
           class="el-input-studentID"
         ></el-input>
       </el-form-item>
-      <el-button>登录</el-button>
+      <el-button @click="loginTest">登录</el-button>
     </el-form>
   </div>
 </template>
@@ -23,16 +24,52 @@ export default {
   name: "Login",
   data() {
     return {
+      toRouteName: "",
       placeholder: "请输入学号",
       ruleForm: {
         studentID: "",
       },
       rules: {
         studentID: [
-          // { required: true, message: '请输入学号', trigger: 'blur' },
           {type:'number', message:'请输入数字', trigger: 'change'}
         ]
       }
+    }
+  },
+  mounted() {
+    // get the next route page
+    this.toRouteName = this.$route.params.toRouteName || "SeatSelect";
+  },
+  methods: {
+    loginTest() {
+      this.$router.push({ name: this.toRouteName, params: { studentID: 1001}})
+    },
+    login() {
+      this.$refs["ruleForm"].validate(valid => {
+        if(valid) {
+          this.$post('/api/login', {
+            studentID: this.ruleForm.studentID
+          }).then(res=>{
+              console.log(res)
+            if(res.statusCode == 200) {
+              this.$refs["ruleForm"].resetFields();   // 发送成功后，重置表单
+              let id = res.data.statusCode;
+
+              this.$router.push({
+                name: this.toRouteName,
+                params: { studentID: id}
+              })
+            } else {
+              this.$message.error('请输入正确的学号！');
+            }
+          }).catch(err => {
+            console.log(err);
+          })
+
+        } else {
+          this.$message.error('请输入正确的学号！')
+        }
+      })
     }
   }
 }

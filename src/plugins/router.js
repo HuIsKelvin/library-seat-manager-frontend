@@ -44,11 +44,6 @@ const routes = [
       }
     ]
   },
-  // {
-  //   path: '/leave',
-  //   name: 'Leave',
-  //   component: () => import('../views/LeaveBriefly/LeaveBriefly.vue')
-  // },
   {
     path: '/access',
     name: 'access',

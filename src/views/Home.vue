@@ -3,10 +3,10 @@
     <el-card class="pane">
       <h1>图书馆选座系统</h1>
       <el-button>
-        <router-link to="/seat">选座</router-link>
+        <router-link :to="{name: 'SeatSelect'}">选座</router-link>
       </el-button>
       <el-button>
-        <router-link to="/leave">离席</router-link>
+        <router-link :to="{name: 'Leave'}">离席</router-link>
       </el-button>
     </el-card>
   </div>
