@@ -1,21 +1,25 @@
 <template>
   <div id="Login">
-    <h1>请先登录</h1>
-    <el-form
-      class="el-form-studentID"
-      :model="ruleForm" 
-      :rules="rules" 
-      ref="ruleForm"
-      @submit.native.prevent>
-      <el-form-item>
-        <el-input 
-          v-model.number="ruleForm.studentID"
-          :placeholder="placeholder"
-          class="el-input-studentID"
-        ></el-input>
-      </el-form-item>
-      <el-button @click="loginTest">登录</el-button>
-    </el-form>
+    <el-card class="card-pane">
+      <div slot="header" class="clearfix">
+        <span>登录</span>
+      </div>
+      <el-form
+        class="el-form-studentID"
+        :model="ruleForm" 
+        :rules="rules" 
+        ref="ruleForm"
+        @submit.native.prevent>
+        <el-form-item>
+          <el-input 
+            v-model.number="ruleForm.studentID"
+            :placeholder="placeholder"
+            class="el-input-studentID"
+          ></el-input>
+        </el-form-item>
+        <el-button @click="loginTest">登录</el-button>
+      </el-form>
+    </el-card>
   </div>
 </template>
 
@@ -57,7 +61,7 @@ export default {
 
               this.$router.push({
                 name: this.toRouteName,
-                params: { studentID: id}
+                params: { studentID: id }
               })
             } else {
               this.$message.error('请输入正确的学号！');

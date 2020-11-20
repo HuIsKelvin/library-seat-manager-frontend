@@ -1,3 +1,12 @@
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+.clearfix:after {
+  clear: both
+}
+
 /**
  * 提交 studentID 的表单
  */
@@ -14,3 +23,8 @@
 /**
  * 我的表单
  */
+
+ .card-pane {
+   min-width: 600px;
+   min-height: 400px;
+ }

@@ -1,27 +1,29 @@
 <template>
   <div id="leave-briefly">
-    <div class="selected-show">
-      <span>学号：{{this.studentID}}</span>
-      <span v-if="ifSeated">已选座位：{{this.seatInfo.seatRow}}行{{this.seatInfo.seatCol}}列</span>
-      <span v-else>未选座位</span>
-    </div>
+    <el-card class="card-pane">
+      <div class="selected-show">
+        <span>学号：{{this.studentID}}</span>
+        <span v-if="ifSeated">已选座位：{{this.seatInfo.seatRow}}行{{this.seatInfo.seatCol}}列</span>
+        <span v-else>未选座位</span>
+      </div>
 
-    <el-form
-      class="el-form-studentID"
-      :model="ruleForm" 
-      :rules="rules" 
-      ref="ruleForm"
-      @submit.native.prevent>
-      <!-- <el-form-item>
-        <el-input 
-          v-model.number="ruleForm.studentID" 
-          :placeholder="placeholder"
-          class="el-input-studentID"
-        ></el-input>
-      </el-form-item> -->
-      <el-button @click="LeaveBriefly">短暂离席</el-button>
-      <el-button @click="releaseSeat">释放座位</el-button>
-    </el-form>
+      <el-form
+        class="el-form-studentID"
+        :model="ruleForm" 
+        :rules="rules" 
+        ref="ruleForm"
+        @submit.native.prevent>
+        <!-- <el-form-item>
+          <el-input 
+            v-model.number="ruleForm.studentID" 
+            :placeholder="placeholder"
+            class="el-input-studentID"
+          ></el-input>
+        </el-form-item> -->
+        <el-button @click="LeaveBriefly">短暂离席</el-button>
+        <el-button @click="releaseSeat">释放座位</el-button>
+      </el-form>
+    </el-card>
   </div>
 </template>
 
@@ -51,7 +53,7 @@ export default {
       }
     }
   },
-  created() {
+  beforeCreate() {
     // get the student id from param of route
     let routeStudentID = this.$route.params.studentID;
     if(!routeStudentID) {
@@ -61,6 +63,8 @@ export default {
       this.studentID = this.$route.params.studentID;
     }
 
+  },
+  created() {
     // this.$get('', {
     //   studentID: this.studentID
     // }).then(res => {
@@ -87,9 +91,15 @@ export default {
       // console.log(`student id:${this.studentID}`)
 
       // 若未输入学号，不操作
-      if(!this.studentID) { return; }
+      if(!this.studentID) { 
+        this.$message({
+          message: "您暂时没有座位！",
+          type: "warning"
+        })
+        return; 
+      }
 
-      const message = `释放学号为 ${this.studentID} 的学生的座位？`
+      const message = `暂时离开学号为 ${this.studentID} 的学生的座位？`
       this.$confirm(message, '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
@@ -101,12 +111,19 @@ export default {
             }).then(res => {
               console.log("leave requeset sended!")
               if(res.statusCode == 200 && res.data.statusCode == 200) {
-                this.$message({
-                  type: 'info',
-                  message: '已释放座位！'
-                })
+                this.$notify.success({
+                  title: '通知',
+                  message: '暂时离席操作成功！'
+                });
 
-                // this.route // route to other place
+                // route to other place
+                this.$router.push({ name: "Leave", params: { studentID: ""}})
+                // this.$router.push({ name: "Login", params: { toRouteName: "Leave"}})
+              } else {
+                this.$notify.error({
+                  title: "错误",
+                  message: "暂时离席过程出现错误！"
+                });
               }
             })
           })
@@ -123,7 +140,13 @@ export default {
      */
     releaseSeat() {
       // 若未输入学号，不操作
-      if(!this.studentID) { return; }
+      if(!this.studentID) { 
+        this.$message({
+          message: "您暂时没有座位！",
+          type: "warning"
+        })
+        return; 
+      }
 
       console.log(`student id:${this.studentID}`)
       console.log("release Seat")
@@ -134,7 +157,23 @@ export default {
             type: 'warning'
           })
           .then(() => {
-            // 
+            this.$post('/seat/release', { studentID: this.studentID })
+                .then(res => {
+                  if(res.statusCode == 200) {
+                    this.$notify.success({
+                      title: "通知",
+                      message: "已释放座位！"
+                    });
+                  } else {
+                    this.$notify.error({
+                      title: "错误",
+                      message: "释放座位过程出现错误！"
+                    });
+                  }
+                })
+                .catch(err => {
+                  console.log(err)
+                })
           })
           .catch(() => {
             this.$message({

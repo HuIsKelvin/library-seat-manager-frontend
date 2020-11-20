@@ -125,9 +125,9 @@ export default {
         }).catch(err => {
           console.log(err)
           this.$notify.error({
-          title: '错误',
-          message: '请求出错！'
-        });
+            title: '错误',
+            message: '请求数据出错！'
+          });
         })
     },
 
@@ -183,29 +183,48 @@ export default {
         })
         return;
       }
-      // 弹框，确认选座
-      // this.$dialog.
 
-      // loading
-
-      // 向后端发送请求
-      this.$post('/api/seat/select', {
-        studentID: this.studentID,
-        seatID: this.seatList[this.selectedIndex].id
-      }).then(res => {
-        if(res.statusCode === 200) {
-          let {statusCode, data} = res.data;
-          console.log(data)
-          if(statusCode === 200) {
-            // 选座成功
-            // 选座成功后的操作
-          } else {
-            // 发生错误
-          }
-        }
-      }).catch(err => {
-        console.log(err)
+      // 弹框，询问确认选座
+      let row = this.seatList[this.selectedIndex].row;
+      let col = this.seatList[this.selectedIndex].col;
+      const message = `确定选择 ${row} 行 ${col} 列的座位？`
+      this.$confirm(message, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
+      .then(()=>{
+        // 向后端发送请求
+        this.$post('/api/seat/select', {
+          studentID: this.studentID,
+          seatID: this.seatList[this.selectedIndex].id
+        }).then(res => {
+          if(res.statusCode === 200) {
+            // let {statusCode, data} = res.data;
+            console.log("选座成功")
+            // if(statusCode === 200) {
+            //   // 选座成功
+            //   console.log("选座成功！");
+            // } else {
+            //   // 发生错误
+            //   this.$notify.error({
+            //     title: '错误',
+            //     message: '请求数据出错！'
+            //   });
+            // }
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      })
+      .catch(() => {
+        // 取消操作
+        this.$message({
+          type: 'info',
+          message: '已取消!'
+        }); 
+      })
+
     },
 
     /**
