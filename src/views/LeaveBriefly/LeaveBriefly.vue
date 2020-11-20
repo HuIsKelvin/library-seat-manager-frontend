@@ -2,7 +2,10 @@
   <div id="leave-briefly">
     <el-card class="card-pane">
       <div class="selected-show">
+        <span>学生</span>
+        <br/>
         <span>学号：{{this.studentID}}</span>
+        <br/>
         <span v-if="ifSeated">已选座位：{{this.seatInfo.seatRow}}行{{this.seatInfo.seatCol}}列</span>
         <span v-else>未选座位</span>
       </div>
@@ -64,7 +67,9 @@ export default {
     }
 
   },
-  created() {
+  mounted() {
+    this.studentID = this.$route.params.studentID;
+
     // this.$get('', {
     //   studentID: this.studentID
     // }).then(res => {
@@ -122,7 +127,7 @@ export default {
               } else {
                 this.$notify.error({
                   title: "错误",
-                  message: "暂时离席过程出现错误！"
+                  message: "暂时离席失败！"
                 });
               }
             })

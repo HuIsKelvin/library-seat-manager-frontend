@@ -2,38 +2,38 @@
   <div id="home">
     <el-card class="pane">
       <h1>图书馆选座系统</h1>
-      <el-button>
-        <router-link :to="{name: 'Login', params: { toRouteName: 'SeatSelect' }}">选座</router-link>
-      </el-button>
-      <el-button>
-        <router-link :to="{name: 'Login', params: { toRouteName: 'Leave' }}">离席</router-link>
-      </el-button>
+      <router-link :to="{name: 'Login', params: { toRouteName: 'SeatSelect' }}">
+        <el-button>选座</el-button>
+      </router-link>
+      <router-link :to="{name: 'Login', params: { toRouteName: 'Leave' }}">
+        <el-button>离席</el-button>
+      </router-link>
     </el-card>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
+  // @ is an alias to /src
+  // import HelloWorld from '@/components/HelloWorld.vue'
 
-export default {
-  name: 'Home',
-  components: {
-    // HelloWorld
+  export default {
+    name: 'Home',
+    components: {
+      // HelloWorld
+    }
   }
-}
 </script>
 
 <style lang="scss" scoped>
-#home {
-  position: relative;
-  margin: 0 auto;
-
-  .pane{
+  #home {
+    position: relative;
     margin: 0 auto;
-    max-width: 50rem;
-    min-width: 35rem;
-    min-height: 20rem;
+
+    .pane {
+      margin: 0 auto;
+      max-width: 50rem;
+      min-width: 35rem;
+      min-height: 20rem;
+    }
   }
-}
 </style>

@@ -17,7 +17,8 @@
             class="el-input-studentID"
           ></el-input>
         </el-form-item>
-        <el-button @click="loginTest">登录</el-button>
+        <el-button @click="loginTest">登录(测试)</el-button>
+        <el-button @click="login">登录</el-button>
       </el-form>
     </el-card>
   </div>
@@ -54,10 +55,10 @@ export default {
           this.$post('/api/login', {
             studentID: this.ruleForm.studentID
           }).then(res=>{
-              console.log(res)
+            console.log(res)
             if(res.statusCode == 200) {
               this.$refs["ruleForm"].resetFields();   // 发送成功后，重置表单
-              let id = res.data.statusCode;
+              let id = res.data.studentID;
 
               this.$router.push({
                 name: this.toRouteName,
