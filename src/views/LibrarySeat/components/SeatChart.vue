@@ -36,10 +36,24 @@ export default {
   },
   methods: {
     createChart() {
-      this.chartInstance = this.$echarts.init(document.getElementById(this.chartId));
+      let chart = document.getElementById(this.chartId);
+      // const initial = function () {
+      //   // 根据想要的效果调整的公式，不是固定的
+      //   // chart.style.width = (window.innerWidth/4)+80+"px";
+
+      //   // 获取 chart 的父父结点chartParent，再根据其算宽度
+      //   let chartParent = chart.parentNode;
+      //   console.log(chart.parentNode);
+      //   console.log(chart.parentNode.parentNode);
+      //   chart.style.width = chartParent.clientWidth - 30 + "px";
+      //   chart.style.margin = "0 auto";
+      //   chart.style.height = (chartParent.clientWidth *0.75 - 30) + "px";
+      // }
+      // initial();
+
+      this.chartInstance = this.$echarts.init(chart);
       // get the option
       this.option = createSeatAreaOption(this.chartData);
-      // console.log("option: "+ this.option);
       // create Echarts instance
       this.chartInstance.setOption(this.option);
       // register the click event
@@ -64,12 +78,15 @@ export default {
 
 <style lang="scss" scoped>
 #SeatChart {
-  // width: 200px;
-  // height: 200px;
+  // overflow:auto;
 
   #chart {
-    min-width: 600px;
-    min-height: 400px;
+    width: 90%;
+    height: 100%;
+    min-height: 500px;
+    min-width: 800px;
+    // min-width: 600px;
+    // min-height: 400px;
   }
 }
 </style>

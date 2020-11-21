@@ -1,5 +1,6 @@
 <template>
   <div id="AccessControl">
+    <h1>图书馆门禁系统</h1>
     <el-form 
       class="el-form-studentID"
       :model="ruleForm" 

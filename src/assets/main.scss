@@ -28,3 +28,11 @@
    min-width: 600px;
    min-height: 400px;
  }
+
+ #library-seat,
+ #student-seat {
+   .info-row {
+    height: 30px;
+    line-height: 30px;
+   }
+ }

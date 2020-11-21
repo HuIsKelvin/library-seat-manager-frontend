@@ -5,7 +5,7 @@
     </el-header>
     
     <el-container class="container">
-      <router-view></router-view>
+      <router-view class="container-view"></router-view>
     </el-container>
   </div>
 </template>
@@ -26,6 +26,17 @@ export default {
 
   .container {
     height: calc(100vh - 60px);
+    max-width: 1400px;
+    min-width: 800px;
+    // width: 60%;
+    // max-width: 400px;
+    // min-width: 200px;
+    // min-width: 60%;
+    margin: 0 auto;
+
+    .container-view {
+      width: 100%;
+    }
   }
 }
 </style>

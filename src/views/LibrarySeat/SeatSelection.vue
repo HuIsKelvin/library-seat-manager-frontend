@@ -13,12 +13,20 @@
       </div>
     </div> -->
 
-    <SeatChart 
-      :chartData="seatList" 
-      @seatClick="seatClick"
-      v-loading="loading"
-      element-loading-background="rgba(250, 250, 250, 0.5)"
-    ></SeatChart>
+    <StudentSeat :studentID="studentID" :key="studentID"></StudentSeat>
+
+    <!-- 显示座位列表 -->
+    <el-card>
+      <div slot="header" class="clearfix">
+        <span>座位列表</span>
+      </div>
+      <SeatChart 
+        :chartData="seatList" 
+        @seatClick="seatClick"
+        v-loading="loading"
+        element-loading-background="rgba(250, 250, 250, 0.5)"
+      ></SeatChart>
+    </el-card>
 
     <!-- 显示当前选择的座位 -->
     <div class="seat-selected-show">
@@ -27,11 +35,10 @@
       <span v-else>无</span>
     </div>
 
-    <el-form @submit.native.prevent>
+    <el-form @submit.native.prevent class="seat-selected-form">
       <el-form-item>
-        <el-button @click="seatSelect">选座</el-button>
-      </el-form-item>
-      <el-form-item>
+        <el-button @click="seatSelect" v-if="ifCanSelect">选座</el-button>
+        <el-button @click="seatSelect" v-else disabled>选座</el-button>
         <el-button @click="seatReset">重选</el-button>
       </el-form-item>
     </el-form>
@@ -41,11 +48,13 @@
 
 <script>
 import SeatChart from './components/SeatChart.vue'
+import StudentSeat from '../../components/StudentSeat.vue'
 
 export default {
   name: "SeatSelection",
   components: {
-    "SeatChart": SeatChart
+    "SeatChart": SeatChart,
+    "StudentSeat": StudentSeat
   },
   data() {
     return {
@@ -58,15 +67,12 @@ export default {
       seatHeight: 5,
       positionGap: 2,
       loading: true,
-      // icon: {
-      //   icon_unused: require("./../../assets/logo.png"),
-      //   icon_used: require("./../../assets/logo.png"),
-      //   icon_selected: require("./../../assets/logo.png"),
-      //   icon_broken: require("./../../assets/logo.png"),
-      // }
+      ifCanSelect: false
     }
   },
   created() {
+    this.studentID = this.$route.params.studentID;
+    this.getStudentSeat();
     this.loading = true;
     this.getSeatList();
 
@@ -88,19 +94,46 @@ export default {
     selectedSeatRow() {
       let result = "";
       if(this.ifSelected) {
-        result = this.seatList[this.selectedIndex].row;
+        result = this.seatList[this.selectedIndex].seatRow;
       }
       return result;
     },
     selectedSeatCol() {
       let result = "";
       if(this.ifSelected) {
-        result = this.seatList[this.selectedIndex].col;
+        result = this.seatList[this.selectedIndex].seatCol;
       }
       return result;
     },
   },
   methods: {
+
+    /**
+     * 获取学生的座位信息
+     */
+    getStudentSeat() {
+      this.$post('/api/seat/studentSeat', {
+        studentID: this.studentID
+      }).then(res => {
+        const { statusCode, data } = res;
+        this.studentID = data.studentID;
+        this.studentName = data.studentName;
+        if(statusCode == 200 && data.seat) {
+          // 该学生已有座位
+          this.ifCanSelect = false;
+          // this.$notify.warning({ title: '警告', message: '每人只能选一个座位！' })
+        } else {
+          // 该学生无座位, 可以选座
+          this.ifCanSelect = true;
+        }
+      }).catch(err => {
+        console.log(err)
+          this.$notify.error({
+            title: '错误',
+            message: '获取学生座位出错！'
+          });
+      })
+    },
 
     /**
      * 获取座位信息
@@ -110,15 +143,17 @@ export default {
 
       this.$get("/api/seat/info")
         .then(res => {
-          let data = res.data;
-          if(data.statusCode == 200) {
+          let {data, statusCode} = res.data;
+          if(statusCode == 200) {
             this.loading = false;
-            let seatList = data.seatList;
+            let seatList = data.seats;
             // seatList.forEach(seatItem => {
             //   // operations
             //   console.log(seatItem)
             // })
             this.seatList = seatList;
+            // console.log("this.seatList");
+            // console.log(this.seatList);
           } else {
             console.log("[Error]")
           }
@@ -126,7 +161,7 @@ export default {
           console.log(err)
           this.$notify.error({
             title: '错误',
-            message: '请求数据出错！'
+            message: '获取座位列表出错！'
           });
         })
     },
@@ -143,7 +178,7 @@ export default {
       console.log(`${seatID}, ${seatIndex}`)
 
       // 座位已选或离席
-      if(this.seatList[seatIndex].status !== 0) {
+      if(this.seatList[seatIndex].seatStatus !== 0) {
         return;
       }
 
@@ -164,11 +199,12 @@ export default {
         this.seatReset();
       } else {
         // 选择新的座位
-        if(seatIndex < 0 || seatIndex >= this.seatList.length) { return; }  // 边界情况
+        if(seatIndex < -1 || seatIndex >= this.seatList.length) { return; }  // 边界情况
 
         this.ifSelected = true;
         this.selectedIndex = seatIndex;
-        this.seatList[this.selectedIndex].status = 3; // change status to selected
+        this.seatList[this.selectedIndex].seatStatus = 3; // change status to selected
+        console.log("seat status changed to 3")
       }
     },
 
@@ -185,8 +221,8 @@ export default {
       }
 
       // 弹框，询问确认选座
-      let row = this.seatList[this.selectedIndex].row;
-      let col = this.seatList[this.selectedIndex].col;
+      let row = this.seatList[this.selectedIndex].seatRow;
+      let col = this.seatList[this.selectedIndex].seatCol;
       const message = `确定选择 ${row} 行 ${col} 列的座位？`
       this.$confirm(message, '提示', {
         confirmButtonText: '确定',
@@ -197,21 +233,16 @@ export default {
         // 向后端发送请求
         this.$post('/api/seat/select', {
           studentID: this.studentID,
-          seatID: this.seatList[this.selectedIndex].id
+          seatID: this.seatList[this.selectedIndex].seatID
         }).then(res => {
           if(res.statusCode === 200) {
-            // let {statusCode, data} = res.data;
-            console.log("选座成功")
-            // if(statusCode === 200) {
-            //   // 选座成功
-            //   console.log("选座成功！");
-            // } else {
-            //   // 发生错误
-            //   this.$notify.error({
-            //     title: '错误',
-            //     message: '请求数据出错！'
-            //   });
-            // }
+            this.$router.push({name: "Login", params: { toRouteName: "SeatSelect"}})
+          } else {
+            this.$notify.error({
+              title: "错误",
+              message: "选座失败！"
+            })
+            this.getSeatList(); // 选座失败，刷新座位列表
           }
         }).catch(err => {
           console.log(err)
@@ -233,7 +264,7 @@ export default {
     seatReset() {
       if(this.ifSelected) {
         // 修改图标
-        this.seatList[this.selectedIndex].status = 0; // change status to unused
+        this.seatList[this.selectedIndex].seatStatus = 0; // change status to unused
       }
       this.ifSelected = false;
       this.selectedIndex = -1;
@@ -253,6 +284,14 @@ export default {
       // position: absolute;
       position: relative;
       background-color: antiquewhite;
+    }
+
+  }
+
+  #seat-selection {
+    .seat-selected-show,
+    .seat-selected-form {
+      text-align: center;
     }
   }
 </style>

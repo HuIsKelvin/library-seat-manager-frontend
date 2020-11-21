@@ -5,6 +5,8 @@
 // const icon_unused = require('./../assets/icon_unused.png');
 // const icon_selected = require('./../assets/icon_selected.png');
 // const icon_broken = require('./../assets/icon_broken.png');
+
+
 // 色表
 const seatStatusColor = [
   "#00FF00", // unused
@@ -16,10 +18,10 @@ const seatStatusColor = [
 /**
  * range of row and column
  */
-let rowMin = 0.5;
-let rowMax = rowMin;
-let colMin = 0.5
-let colMax = colMin;
+let rowMin = 0.75;
+// let rowMax = rowMin;
+let colMin = 0.75;
+// let colMax = colMin;
 
 /**
  * function - processData
@@ -28,11 +30,12 @@ let colMax = colMin;
  */
 function processData(data) {
   let seriesData = [];
+
   data.forEach((seat, index) => {
     // seat data - col, row, index, seat_id, seat_status, seat_type
-    rowMax = Math.max(rowMax, seat.row + 0.5)
-    colMax = Math.max(colMax, seat.col + 0.5)
-    let seatData = [seat.col, seat.row, index, seat.id, seat.status, seat.type];
+    // rowMax = Math.max(rowMax, seat.row + 0.5)
+    // colMax = Math.max(colMax, seat.col + 0.5)
+    let seatData = [seat.seatCol, seat.seatRow, index, seat.seatID, seat.seatStatus, seat.seatType];
     seriesData.push(seatData);
   })
 
@@ -50,27 +53,60 @@ function createSeatAreaOption(data) {
 
   // option for echarts
   let option = {
+    grid: {
+      top: '5%',
+      left: '5%',
+      bottom: '5%',
+      right: '5%',
+      // width: 'auto',
+      // height: 'auto',
+      // containLabel: true
+    },
+    dataZoom: [
+      {
+        type: 'inside',
+        // 控制x轴
+        xAxisIndex: 0,
+        start: 0,
+        end: 100,
+        showDetail: false,
+        minValueSpan: 2,
+      },
+      {
+        type: 'inside',
+        // 控制x轴
+        yAxisIndex: 0,
+        start: 0,
+        end: 100,
+        showDetail: false,
+        minValueSpan: 2,
+      },
+    ],
     xAxis: {
       show: false,
       interval: 0.5,
       // min: 0.5,
       // max: 4.5
-      min: colMin,
-      max: colMax
+      min: rowMin,
+      max: function (value) {
+        return value.max + 0.25
+      }
     },
     yAxis: {
       show: false,
       interval: 0.5,
       // min: 0.5,
       // max: 2.5
-      min: rowMin,
-      max: rowMax
+      min: colMin,
+      max: function (value) {
+        return value.max + 0.25
+      }
     },
     series: {
       type: 'scatter',
       data: chartData,
-      symbol: (data) => {
-        console.log(data)
+      symbol: () => {
+        // console.log(data)
         return 'roundRect'
       },
       symbolSize: 35,
