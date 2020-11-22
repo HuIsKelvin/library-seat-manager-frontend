@@ -4,7 +4,8 @@ found in element-ui/packages/theme-chalk/src/common/var.scss.
 For example, to overwrite the theme color:
 */
 // $--color-primary: rgb(43, 69, 219);
-$--color-primary: #087236;
+// $--color-primary: #087236;
+$--color-primary: #5C944C;
 
 /* icon font path, required */
 $--font-path: '~element-ui/lib/theme-chalk/fonts';
@@ -16,6 +17,7 @@ $color-black: rgb(14, 13, 13);
 $color-green-light: #5C944C;
 $color-green: #087236;
 $color-green-dark: #005826;
+$color-grey-light: #f7f8fa;
 // $box-shadow: 5px 5px 12px #ebedf0;
 $box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 
@@ -37,12 +39,10 @@ $box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
  */
  .el-button, 
  .el-button–primary{
-  // color: #fff;
-  // background-color: #8B83D2;
-  // border-color: #8B83D2;
-  // border-radius: 12px;
+  border-radius: 30px;
   // box-shadow: 0 8px 12px #ebedf0;
   box-shadow: $box-shadow;
+  // margin-right: 30px;
 
   &:hover {
     // background-color: #1e98c9;

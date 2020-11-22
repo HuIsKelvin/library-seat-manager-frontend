@@ -4,7 +4,7 @@
       <MyHeader></MyHeader>
     </el-header>
     
-    <el-container class="container">
+    <el-container class="container flex-row-col">
       <router-view class="container-view"></router-view>
     </el-container>
   </div>
@@ -36,6 +36,7 @@ export default {
 
     .container-view {
       width: 100%;
+      margin-top: 20px;
     }
   }
 }

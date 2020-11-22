@@ -13,7 +13,7 @@
       </div>
     </div> -->
 
-    <StudentSeat :studentID="studentID" :key="studentID"></StudentSeat>
+    <StudentSeat class="row" :studentID="studentID" :key="studentID"></StudentSeat>
 
     <!-- 显示座位列表 -->
     <el-card class="seat-select-card row">
@@ -37,9 +37,9 @@
 
     <el-form @submit.native.prevent class="seat-selected-form row">
       <el-form-item>
-        <el-button @click="seatSelect" v-if="ifCanSelect" type="primary">选座</el-button>
-        <el-button @click="seatSelect" v-else type="primary" disabled>选座</el-button>
-        <el-button @click="seatReset" type="danger">重选</el-button>
+        <el-button class="margin-right" @click="seatSelect" v-if="ifCanSelect" type="primary">选座</el-button>
+        <el-button class="margin-right" @click="seatSelect" v-else type="primary" disabled>选座</el-button>
+        <el-button class="margin-left" @click="seatReset" type="danger">重选</el-button>
       </el-form-item>
     </el-form>
 
@@ -67,23 +67,25 @@ export default {
       seatHeight: 5,
       positionGap: 2,
       loading: true,
-      ifCanSelect: false
+      ifCanSelect: true
     }
   },
   created() {
-    this.studentID = this.$route.params.studentID;
-    this.getStudentSeat();
-    this.loading = true;
-    this.getSeatList();
-
     // get the student id from param of route
     let routeStudentID = this.$route.params.studentID;
     if(!routeStudentID) {
       // route to the login page
-      this.$router.push({ name: "Login", params: { toRouteName: "SeatSelect" }})
+      // this.$router.push({ name: "Login", params: { toRouteName: "SeatSelect" }})
+      this.$router.push({ name: "Home" })
     } else {
       this.studentID = this.$route.params.studentID;
     }
+
+    // this.studentID = this.$route.params.studentID;
+    this.getStudentSeat();
+    this.loading = true;
+    this.getSeatList();
+
   },
   beforeMounted() {
   },
@@ -106,13 +108,25 @@ export default {
       return result;
     },
   },
+  watch: {
+    '$route.params.studentID': (val) => {
+      // console.log("new studentID")
+      this.studentID = val;
+    },
+    studentID(val) {
+      // console.log("student change")
+      if(val && (val !== -1 || val !== 0)) {
+        this.getStudentSeat();
+      }
+    }
+  },
   methods: {
 
     /**
      * 获取学生的座位信息
      */
     getStudentSeat() {
-      if(!this.studentID || (this.studentID !== -1 || this.studentID !== 0)) {
+      if(!this.studentID || this.studentID == -1 || this.studentID == 0) {
         return;
       }
 
@@ -126,9 +140,11 @@ export default {
           // 该学生已有座位
           this.ifCanSelect = false;
           // this.$notify.warning({ title: '警告', message: '每人只能选一个座位！' })
-        } else {
+        } else if(statusCode == 200) {
           // 该学生无座位, 可以选座
           this.ifCanSelect = true;
+        } else {
+          console.log("Error in getting student seat")
         }
       }).catch(err => {
         console.log(err)
@@ -180,10 +196,10 @@ export default {
     seatClick(seatData) {
       // console.log("seat id: ")
       // console.log(seatData)
-      const { id, index } = seatData;
-      const seatID = id;
+      const { index } = seatData;
+      // const seatID = id;
       const seatIndex = index;
-      console.log(`click seat: ${seatID}, ${seatIndex}`)
+      // console.log(`click seat: ${seatID}, ${seatIndex}`)
 
       // 座位已选或离席
       if(this.seatList[seatIndex].seatStatus !== 0) {
@@ -236,14 +252,23 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       })
-      .then(()=>{
+      .then(() => {
         // 向后端发送请求
         this.$post('/api/seat/select', {
           studentID: this.studentID,
           seatID: this.seatList[this.selectedIndex].seatID
         }).then(res => {
-          if(res.statusCode === 200) {
-            this.$router.push({name: "Login", params: { toRouteName: "SeatSelect"}})
+          if (res.statusCode === 200) {
+            // 选座成功
+            const message = "选座成功！"
+            this.$alert(message, '提示', {
+                confirmButtonText: '确定',
+                type: 'success',
+                showClose: false,
+              })
+              .then(() => {
+                this.$router.push({ name: "Login", params: { toRouteName: "SeatSelect" } })
+              })
           } else {
             this.$notify.error({
               title: "错误",

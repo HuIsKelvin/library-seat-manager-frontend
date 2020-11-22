@@ -1,17 +1,17 @@
 <template>
   <div id="leave-briefly">
-    <el-card class="card-pane">
+    <el-card class="card-pane center">
       <div class="selected-show">
         <el-row class="info-row">
-          <el-col :span="4">学生</el-col>
+          <el-col :span="6">学生</el-col>
           <el-col :span="6">{{this.studentName}}</el-col>
         </el-row>
         <el-row class="info-row">
-          <el-col :span="4">姓名</el-col>
+          <el-col :span="6">姓名</el-col>
           <el-col :span="6">{{this.studentID}}</el-col>
         </el-row>
         <el-row class="info-row">
-          <el-col :span="4">已选座位</el-col>
+          <el-col :span="6">已选座位</el-col>
           <el-col :span="6">
             <!-- <span v-if="ifSeated">{{this.seatInfo.seatRow}} 行 {{this.seatInfo.seatCol}} 列</span>
             <span v-else>无座位</span> -->
@@ -34,7 +34,7 @@
       <el-divider></el-divider>
 
       <el-form
-        class="el-form-studentID"
+        class="el-form-studentID flex-row"
         :model="ruleForm" 
         :rules="rules" 
         ref="ruleForm"
@@ -46,8 +46,8 @@
             class="el-input-studentID"
           ></el-input>
         </el-form-item> -->
-        <el-button @click="LeaveBriefly">短暂离席</el-button>
-        <el-button @click="releaseSeat">释放座位</el-button>
+        <el-button @click="LeaveBriefly" type="primary">短暂离席</el-button>
+        <el-button @click="releaseSeat" type="danger">释放座位</el-button>
       </el-form>
     </el-card>
   </div>
@@ -90,7 +90,8 @@ export default {
     let routeStudentID = this.$route.params.studentID;
     if(!routeStudentID) {
       // route to the login page
-      this.$router.push({ name: "Login", params: { toRouteName: 'Leave' }})
+      // this.$router.push({ name: "Login", params: { toRouteName: 'Leave' }})
+      this.$router.push({ name: "Home" })
     } else {
       this.studentID = this.$route.params.studentID;
     }
@@ -147,7 +148,7 @@ export default {
         return; 
       }
 
-      const message = `暂时离开学号为 ${this.studentID} 的学生的座位？`
+      const message = `暂时离开 ${this.studentName} 的座位（${this.seatInfo.seatRow}行${this.seatInfo.seatCol}列）？`
       this.$confirm(message, '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
@@ -194,9 +195,9 @@ export default {
         return; 
       }
 
-      console.log(`student id:${this.studentID}`)
-      console.log("release Seat")
-      const message = `释放学号为 ${this.studentID} 的学生的座位？`
+      // console.log(`student id:${this.studentID}`)
+      // console.log("release Seat")
+      const message = `释放 ${this.studentName} 的座位（${this.seatInfo.seatRow}行${this.seatInfo.seatCol}列）？`
       this.$confirm(message, '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',

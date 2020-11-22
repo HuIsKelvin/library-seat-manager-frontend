@@ -1,3 +1,5 @@
+@import './../element-variables.scss';
+
 .clearfix:before,
 .clearfix:after {
   display: table;
@@ -7,10 +9,21 @@
   clear: both
 }
 
+h1 {
+  font-size: 55px;
+  font-weight: bold;
+}
+
 /**
  * 通用样式
  */
- $margin-top: 1rem;
+
+ h1[class="logo"] {
+  margin: 3rem .5rem 4rem .5rem;
+  color: $color-green-dark;
+ }
+
+ $margin-top: .5rem;
  $margin-right: .5rem;
 
  .row {
@@ -19,17 +32,23 @@
  .row-large {
     margin: $margin-top*2 $margin-right;
  }
+ .margin-right {
+   margin-right: $margin-right * 4;
+ }
+ .margin-left {
+   margin-left: $margin-right * 4;
+ }
 
   /**
   * 居中
   */
   // 在整个页面中居中
-  // .center {
-  //   position: position;
-  //   top: 50%;
-  //   left: 50%;
-  //   transform: translate(-50%, -50%);
-  // }
+  .center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
   // 容器的内容水平垂直居中
   .flex-row-col {
     display: flex;
@@ -60,6 +79,8 @@
   .el-input-studentID {
     // margin: 1rem;
     max-width: 35rem;
+    width: 65%;
+    margin-right: 20px;
   }
 }
 
@@ -68,8 +89,8 @@
  */
 
  .card-pane {
-   min-width: 600px;
-   min-height: 400px;
+   min-width: 500px;
+   min-height: 150px;
  }
 
  #library-seat,

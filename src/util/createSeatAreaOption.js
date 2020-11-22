@@ -61,6 +61,9 @@ function createSeatAreaOption(data) {
 
   // option for echarts
   let option = {
+    legend: {
+      show: true
+    },
     grid: {
       top: '5%',
       left: '5%',
@@ -148,5 +151,6 @@ function createSeatAreaOption(data) {
 
 export {
   createSeatAreaOption,
-  processData
+  processData,
+  seatStatusColor,
 };

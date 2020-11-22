@@ -14,7 +14,7 @@
           <router-link :to="{name: 'Login', params: { toRouteName: 'SeatSelect' }}">选座</router-link>
         </span> -->
 
-        <el-menu 
+        <!-- <el-menu 
           :default-active="this.$router.name" 
           class="el-menu-demo link" 
           mode="horizontal"
@@ -28,7 +28,7 @@
           <el-menu-item index="Leave" :route="{name: 'Login', params: { toRouteName: 'Leave' }}">
             <span class="link">离席</span>
           </el-menu-item>
-        </el-menu>
+        </el-menu> -->
 
       </el-col>
     </el-row>
@@ -43,7 +43,7 @@ export default {
   data() {
     return {
       headerStyle: {
-        backgroundColor: "#087236",
+        backgroundColor: "#5C944C",
         textColor: "#fff",
         activeTextColor: "#ffd04b"
       }
@@ -61,7 +61,7 @@ export default {
   background-color: $color-green-light;
 
   .logo {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: bold;
     color: #fff;
     cursor: pointer;

@@ -1,8 +1,13 @@
 <template>
   <div id="Login">
-    <el-card class="card-pane">
+    <el-card class="card-pane center">
       <div slot="header" class="clearfix">
         <span>登录</span>
+        <!-- <span v-if="toRouteName !==''">
+          至
+          {{toRoutePageName.toRouteName}}
+          页面
+        </span> -->
       </div>
       <el-form
         class="el-form-studentID"
@@ -17,8 +22,10 @@
             class="el-input-studentID"
           ></el-input>
         </el-form-item>
-        <el-button @click="loginTest">登录(测试)</el-button>
-        <el-button @click="login">登录</el-button>
+        <el-form-item>
+          <el-button @click="login" type="primary">登录</el-button>
+          <!-- <el-button @click="loginTest">登录(测试)</el-button> -->
+        </el-form-item>
       </el-form>
     </el-card>
   </div>
@@ -30,6 +37,10 @@ export default {
   data() {
     return {
       toRouteName: "",
+      toRoutePageName: {
+        "SeatSelect": "选座",
+        "Leave": "离席"
+      },
       placeholder: "请输入学号",
       ruleForm: {
         studentID: "",
@@ -44,6 +55,12 @@ export default {
   mounted() {
     // get the next route page
     this.toRouteName = this.$route.params.toRouteName || "SeatSelect";
+  },
+  watch: {
+    '$route.params.toRouteName': function(val) {
+      console.log("new toRouteName")
+      this.toRouteName = val;
+    }
   },
   methods: {
     loginTest() {
@@ -82,6 +99,7 @@ export default {
 
 <style lang="scss" scoped>
 #Login {
-  
+  .card-pane {
+  }
 }
 </style>

@@ -11,7 +11,9 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import './element-variables.scss';
+
 * {
   box-sizing:border-box;
   -moz-box-sizing:border-box; /* Firefox */
@@ -31,7 +33,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   /* text-align: center;
   color: #2c3e50; */
-  background-color: #f7f8fa;
+  /* background-color: #f7f8fa; */
+  background-color: $color-grey-light;
   margin: 0;
   min-width: 800px;
   width: 100%;

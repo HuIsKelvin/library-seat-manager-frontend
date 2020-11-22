@@ -1,12 +1,22 @@
 <template>
   <div id="SeatChart">
     <!-- <h1>chart</h1> -->
+    <div class="seatLegend">
+      <span 
+        class="legend"
+        v-for="(legend, index) in seatLegend" 
+        :key="index">
+        <span class="legend-color" :style="{backgroundColor: legend.color}"></span>
+        <span class="legend-text">{{legend.text}}</span>
+      </span>
+    </div>
+
     <div id="chart"></div>
   </div>
 </template>
 
 <script>
-import { createSeatAreaOption } from './../../../util/createSeatAreaOption';
+import { createSeatAreaOption, seatStatusColor } from './../../../util/createSeatAreaOption';
 
 export default {
   name: "chart",
@@ -17,7 +27,21 @@ export default {
     return {
       chartId: "chart",
       chartInstance: "",
-      option: {}
+      option: {},
+      seatLegend: [
+        {
+          color: seatStatusColor[0],
+          text: '可选'
+        },
+        {
+          color: seatStatusColor[1],
+          text: '使用中'
+        },
+        {
+          color: seatStatusColor[3],
+          text: '已选'
+        },
+      ]
     }
   },
   mounted() {
@@ -82,10 +106,31 @@ export default {
   position: relative;
   min-width: 800px;
 
+  .seatLegend {
+    display: flex;
+    align-items:center;
+    
+    .legend {
+      display: inline-block;
+      margin-right: 1rem;
+      height: 20px;
+      line-height: 20px;
+  
+      .legend-color {
+        display: inline-block;
+        width: 17px;
+        height: 17px;
+        border-radius: 30%;
+        margin-right: .2rem;
+      }
+    }
+  }
+
+
   #chart {
     width: 90%;
     height: 100%;
-    min-height: 500px;
+    min-height: 450px;
     min-width: 800px;
     margin: 20px auto;
     // min-width: 600px;

@@ -41,6 +41,12 @@
     props: {
       studentID: {
         required: true
+      },
+      seatStatus: {
+        "": "",
+        0: 'unused',
+        1: 'used',
+        2: 'leave'
       }
     },
     data() {
@@ -50,7 +56,7 @@
           seatID: -1,
           seatRow: -1,
           seatCol: -1,
-          seatStatus: -1,
+          seatStatus: "",
           seatType: -1,
         },
         ifSeated: false,
