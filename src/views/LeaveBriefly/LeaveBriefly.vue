@@ -13,14 +13,17 @@
         <el-row class="info-row">
           <el-col :span="6">已选座位</el-col>
           <el-col :span="6">
-            <!-- <span v-if="ifSeated">{{this.seatInfo.seatRow}} 行 {{this.seatInfo.seatCol}} 列</span>
-            <span v-else>无座位</span> -->
-            <span v-if="ifSeated">
-              <el-tag effect="dark">{{this.seatInfo.seatRow}} 行 {{this.seatInfo.seatCol}} 列</el-tag>
-            </span>
-            <span v-else>
-              <el-tag type="info">无座位</el-tag>
-            </span>
+            <el-badge 
+              :value="(seatInfo.seatStatus===2) ? '离席中' : '使用中'" 
+              :type="(seatInfo.seatStatus===2) ? 'info' : 'danger'"
+              :hidden="!ifSeated">
+              <span v-if="ifSeated">
+                <el-tag effect="dark">{{this.seatInfo.seatRow}} 行 {{this.seatInfo.seatCol}} 列</el-tag>
+              </span>
+              <span v-else>
+                <el-tag type="info">无座位</el-tag>
+              </span>
+            </el-badge>
           </el-col>
         </el-row>
 
