@@ -4,7 +4,7 @@
       <el-col class="header-col" :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
         <!-- logo -->
         <router-link to="/" tag="span">
-          <span class="logo">选座系统</span>
+          <span class="logo">图书馆选座系统</span>
         </router-link>
       </el-col>
 
