@@ -2,11 +2,14 @@
   <div id="header">
     <el-row type="flex" justify="space-between" align="middle">
       <el-col class="header-col" :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
+        <!-- logo -->
         <router-link to="/" tag="span">
           <span class="logo">选座系统</span>
         </router-link>
       </el-col>
+
       <el-col class="header-col header-links cover-fullhidden-xs-only"  :xs="24" :sm="24" :md="6" :lg="6" :xl="6">
+        <!-- link of header(选座、离席等等) -->
         <!-- <span class="link">
           <router-link :to="{name: 'Login', params: { toRouteName: 'Leave' }}">离席</router-link>
         </span>
@@ -85,13 +88,6 @@ export default {
       }
     }
 
-  }
-
-  .header-links {
-    // :hover {
-    //   background-color: rgb(44, 126, 194);
-    //   color: #EEE;
-    // }
   }
 
 }

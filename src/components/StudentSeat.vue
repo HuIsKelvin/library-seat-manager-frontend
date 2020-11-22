@@ -23,12 +23,17 @@
         <el-row class="info-row">
           <el-col :xs="spanTitle.xs" :sm="spanTitle.sm" :md="spanTitle.md" :lg="spanTitle.lg" :xl="spanTitle.xl">已选座位</el-col>
           <el-col :xs="spanInfo.xs" :sm="spanInfo.sm" :md="spanInfo.md" :lg="spanInfo.lg" :xl="spanInfo.xl">
-            <span v-if="ifSeated">
-              <el-tag effect="dark">{{this.seatInfo.seatRow}} 行 {{this.seatInfo.seatCol}} 列</el-tag>
-            </span>
-            <span v-else>
-              <el-tag type="info">无座位</el-tag>
-            </span>
+            <el-badge 
+              :value="(seatInfo.seatStatus===2) ? '离席中' : '使用中'" 
+              :type="(seatInfo.seatStatus===2) ? 'info' : 'danger'"
+              :hidden="!ifSeated">
+              <span v-if="ifSeated">
+                <el-tag effect="dark">{{this.seatInfo.seatRow}} 行 {{this.seatInfo.seatCol}} 列</el-tag>
+              </span>
+              <span v-else>
+                <el-tag type="info">无座位</el-tag>
+              </span>
+            </el-badge>
           </el-col>
         </el-row>
       </div>
@@ -56,7 +61,7 @@
           seatID: -1,
           seatRow: -1,
           seatCol: -1,
-          seatStatus: "",
+          seatStatus: 1,
           seatType: -1,
         },
         ifSeated: false,
