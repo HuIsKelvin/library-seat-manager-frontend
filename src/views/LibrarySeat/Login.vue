@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     loginTest() {
-      this.$router.push({ name: this.toRouteName, params: { studentID: 1001}})
+      this.$router.push({ name: this.toRouteName, params: { studentID: 20214917}})
     },
     login() {
       this.$refs["ruleForm"].validate(valid => {

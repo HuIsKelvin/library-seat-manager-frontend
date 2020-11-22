@@ -9,10 +9,18 @@
 
 // 色表
 const seatStatusColor = [
-  "#00FF00", // unused
-  "#A9A9A9", // used
-  "#A9A9A9", // leave
-  "#FF4500", // selected
+  // "#00FF00", // unused
+  // "#A9A9A9", // used
+  // "#A9A9A9", // leave
+  // "#FF4500", // selected
+  "#29bf12", // unused
+  "#CFDBD5", // used
+  "#CFDBD5", // leave
+  "#f21b3f", // selected
+  // "#087236", // unused
+  // "#CFDBD5", // used
+  // "#CFDBD5", // leave
+  // "#C54B30", // selected
 ];
 
 /**

@@ -1,32 +1,36 @@
 <template>
   <div id="student-seat">
       <div class="selected-show">
-        <el-row class="info-row">
-          <el-col :span="4">学生</el-col>
-          <el-col :span="6">{{this.studentName}}</el-col>
-        </el-row>
-        <el-row class="info-row">
-          <el-col :span="4">学号</el-col>
-          <el-col :span="6">{{this.studentID}}</el-col>
-        </el-row>
-        <el-row class="info-row">
-          <el-col :span="4">已选座位</el-col>
-          <el-col :span="6">
-            <span v-if="ifSeated">
-              <el-tag effect="dark">{{this.seatInfo.seatRow}} 行 {{this.seatInfo.seatCol}} 列</el-tag>
-            </span>
-            <span v-else>
-              <el-tag type="info" effect="dark">无座位</el-tag>
-            </span>
-          </el-col>
-        </el-row>
-        <el-alert
+        <!-- 提示条 -->
+        <el-row>
+          <el-alert
           title="每人只能选一个座位！"
           type="warning"
           show-icon
           v-if="ifSeated">
         </el-alert>
 
+        <!-- 学生信息 -->
+        </el-row>
+        <el-row class="info-row">
+          <el-col :xs="spanTitle.xs" :sm="spanTitle.sm" :md="spanTitle.md" :lg="spanTitle.lg" :xl="spanTitle.xl">学生</el-col>
+          <el-col :xs="spanInfo.xs" :sm="spanInfo.sm" :md="spanInfo.md" :lg="spanInfo.lg" :xl="spanInfo.xl">{{this.studentName}}</el-col>
+        </el-row>
+        <el-row class="info-row">
+          <el-col :xs="spanTitle.xs" :sm="spanTitle.sm" :md="spanTitle.md" :lg="spanTitle.lg" :xl="spanTitle.xl">学号</el-col>
+          <el-col :xs="spanInfo.xs" :sm="spanInfo.sm" :md="spanInfo.md" :lg="spanInfo.lg" :xl="spanInfo.xl">{{this.studentID}}</el-col>
+        </el-row>
+        <el-row class="info-row">
+          <el-col :xs="spanTitle.xs" :sm="spanTitle.sm" :md="spanTitle.md" :lg="spanTitle.lg" :xl="spanTitle.xl">已选座位</el-col>
+          <el-col :xs="spanInfo.xs" :sm="spanInfo.sm" :md="spanInfo.md" :lg="spanInfo.lg" :xl="spanInfo.xl">
+            <span v-if="ifSeated">
+              <el-tag effect="dark">{{this.seatInfo.seatRow}} 行 {{this.seatInfo.seatCol}} 列</el-tag>
+            </span>
+            <span v-else>
+              <el-tag type="info">无座位</el-tag>
+            </span>
+          </el-col>
+        </el-row>
       </div>
   </div>
 </template>
@@ -49,16 +53,34 @@
           seatStatus: -1,
           seatType: -1,
         },
-        ifSeated: false
+        ifSeated: false,
+        spanTitle: {
+          xs: 4,
+          sm: 4,
+          md: 4,
+          lg: 2,
+          xl: 2
+        },
+        spanInfo: {
+          xs: 6,
+          sm: 6,
+          md: 6,
+          lg: 4,
+          xl: 4
+        },
       }
     },
     mounted() {
-      this.getStudentSeat()
+      if(this.studentID && (this.studentID !== -1 || this.studentID !== 0)) {
+        this.getStudentSeat();
+      }
     },
     watch: {
       studentID: {
-        handler: function() {
-          this.getStudentSeat();
+        handler: function(val) {
+          if(val && (val !== -1 || val !== 0)) {
+            this.getStudentSeat();
+          }
         },
         deep: true
       }
@@ -73,12 +95,9 @@
           studentID: this.studentID
         }).then(res => {
           console.log("get student seat")
-          const {
-            statusCode,
-            data
-          } = res;
-          console.log(statusCode)
-          console.log(data)
+          const { statusCode, data } = res;
+          // console.log(statusCode)
+          // console.log(data)
           if (statusCode == 200 && data.seat) {
             console.log("have seat")
             this.seatInfo = data.seat;

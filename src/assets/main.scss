@@ -8,6 +8,49 @@
 }
 
 /**
+ * 通用样式
+ */
+ $margin-top: 1rem;
+ $margin-right: .5rem;
+
+ .row {
+    margin: $margin-top $margin-right;
+ }
+ .row-large {
+    margin: $margin-top*2 $margin-right;
+ }
+
+  /**
+  * 居中
+  */
+  // 在整个页面中居中
+  // .center {
+  //   position: position;
+  //   top: 50%;
+  //   left: 50%;
+  //   transform: translate(-50%, -50%);
+  // }
+  // 容器的内容水平垂直居中
+  .flex-row-col {
+    display: flex;
+    display: -webkit-flex;
+    align-items:center;
+    justify-content:center;
+  }
+  // 容器的内容水平居中
+  .flex-row {
+    display: flex;
+    display: -webkit-flex;
+    justify-content:center;
+  }
+  // 容器的内容垂直居中
+  .flex-col {
+    display: flex;
+    display: -webkit-flex;
+    align-items:center;
+  }
+
+/**
  * 提交 studentID 的表单
  */
 .el-form-studentID {

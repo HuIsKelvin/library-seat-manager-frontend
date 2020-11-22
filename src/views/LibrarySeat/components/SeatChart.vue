@@ -79,12 +79,15 @@ export default {
 <style lang="scss" scoped>
 #SeatChart {
   // overflow:auto;
+  position: relative;
+  min-width: 800px;
 
   #chart {
     width: 90%;
     height: 100%;
     min-height: 500px;
     min-width: 800px;
+    margin: 20px auto;
     // min-width: 600px;
     // min-height: 400px;
   }

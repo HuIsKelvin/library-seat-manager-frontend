@@ -16,7 +16,7 @@
     <StudentSeat :studentID="studentID" :key="studentID"></StudentSeat>
 
     <!-- 显示座位列表 -->
-    <el-card>
+    <el-card class="seat-select-card row">
       <div slot="header" class="clearfix">
         <span>座位列表</span>
       </div>
@@ -29,17 +29,17 @@
     </el-card>
 
     <!-- 显示当前选择的座位 -->
-    <div class="seat-selected-show">
+    <div class="seat-selected-show row">
       已选择座位：
-      <span v-if="ifSelected">{{selectedSeatRow}} 行 {{selectedSeatCol}} 列</span>
-      <span v-else>无</span>
+      <span v-if="ifSelected"><el-tag effect="dark">{{selectedSeatRow}} 行 {{selectedSeatCol}} 列</el-tag></span>
+      <span v-else><el-tag type="info">无</el-tag></span>
     </div>
 
-    <el-form @submit.native.prevent class="seat-selected-form">
+    <el-form @submit.native.prevent class="seat-selected-form row">
       <el-form-item>
-        <el-button @click="seatSelect" v-if="ifCanSelect">选座</el-button>
-        <el-button @click="seatSelect" v-else disabled>选座</el-button>
-        <el-button @click="seatReset">重选</el-button>
+        <el-button @click="seatSelect" v-if="ifCanSelect" type="primary">选座</el-button>
+        <el-button @click="seatSelect" v-else type="primary" disabled>选座</el-button>
+        <el-button @click="seatReset" type="danger">重选</el-button>
       </el-form-item>
     </el-form>
 
@@ -112,6 +112,10 @@ export default {
      * 获取学生的座位信息
      */
     getStudentSeat() {
+      if(!this.studentID || (this.studentID !== -1 || this.studentID !== 0)) {
+        return;
+      }
+
       this.$post('/api/seat/studentSeat', {
         studentID: this.studentID
       }).then(res => {
@@ -155,7 +159,11 @@ export default {
             // console.log("this.seatList");
             // console.log(this.seatList);
           } else {
-            console.log("[Error]")
+            console.error("[Error]")
+            this.$notify.error({
+              title: '错误',
+              message: '获取座位列表出错！'
+            });
           }
         }).catch(err => {
           console.log(err)
@@ -170,12 +178,12 @@ export default {
      * 选择座位的 click 事件
      */
     seatClick(seatData) {
-      console.log("seat id: ")
+      // console.log("seat id: ")
       // console.log(seatData)
       const { id, index } = seatData;
       const seatID = id;
       const seatIndex = index;
-      console.log(`${seatID}, ${seatIndex}`)
+      console.log(`click seat: ${seatID}, ${seatIndex}`)
 
       // 座位已选或离席
       if(this.seatList[seatIndex].seatStatus !== 0) {
@@ -204,7 +212,6 @@ export default {
         this.ifSelected = true;
         this.selectedIndex = seatIndex;
         this.seatList[this.selectedIndex].seatStatus = 3; // change status to selected
-        console.log("seat status changed to 3")
       }
     },
 
@@ -292,6 +299,9 @@ export default {
     .seat-selected-show,
     .seat-selected-form {
       text-align: center;
+    }
+    .seat-select-card {
+      width: 100%;
     }
   }
 </style>

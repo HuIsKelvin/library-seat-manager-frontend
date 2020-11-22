@@ -2,9 +2,9 @@
   <div id="header">
     <el-row type="flex" justify="space-between" align="middle">
       <el-col class="header-col" :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
-        <span class="logo">
-          <router-link to="/">选座系统</router-link>
-        </span>
+        <router-link to="/" tag="span">
+          <span class="logo">选座系统</span>
+        </router-link>
       </el-col>
       <el-col class="header-col header-links cover-fullhidden-xs-only"  :xs="24" :sm="24" :md="6" :lg="6" :xl="6">
         <!-- <span class="link">
@@ -53,9 +53,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import './../element-variables.scss';
+
 #header {
   height: 60px;
-  background-color: #087236;
+  // background-color: #087236;
+  background-color: $color-green-light;
+
+  .logo {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+  }
 
   .header-col {
     height: 60px;

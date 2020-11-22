@@ -7,14 +7,20 @@
           <el-col :span="6">{{this.studentName}}</el-col>
         </el-row>
         <el-row class="info-row">
-          <el-col :span="4">学号</el-col>
+          <el-col :span="4">姓名</el-col>
           <el-col :span="6">{{this.studentID}}</el-col>
         </el-row>
         <el-row class="info-row">
           <el-col :span="4">已选座位</el-col>
           <el-col :span="6">
-            <span v-if="ifSeated">{{this.seatInfo.seatRow}} 行 {{this.seatInfo.seatCol}} 列</span>
-            <span v-else>无座位</span>
+            <!-- <span v-if="ifSeated">{{this.seatInfo.seatRow}} 行 {{this.seatInfo.seatCol}} 列</span>
+            <span v-else>无座位</span> -->
+            <span v-if="ifSeated">
+              <el-tag effect="dark">{{this.seatInfo.seatRow}} 行 {{this.seatInfo.seatCol}} 列</el-tag>
+            </span>
+            <span v-else>
+              <el-tag type="info">无座位</el-tag>
+            </span>
           </el-col>
         </el-row>
 
@@ -153,14 +159,12 @@ export default {
             }).then(res => {
               console.log("leave requeset sended!")
               if(res.statusCode == 200) {
-                this.$notify.success({
-                  title: '通知',
-                  message: '暂时离席操作成功！'
-                });
-
-                // route to other place
-                this.$router.push({ name: "Login", params: { toRouteName: "Leave"}})
                 // this.$router.push({ name: "Login", params: { toRouteName: "Leave"}})
+                // this.$notify.success({
+                //   title: '通知',
+                //   message: '已暂时离席！'
+                // });
+                this.operationSuccess();
               } else {
                 this.$notify.error({
                   title: "错误",
@@ -202,11 +206,12 @@ export default {
             this.$post('/api/seat/release', { studentID: this.studentID })
                 .then(res => {
                   if(res.statusCode == 200) {
-                    this.$router.push({name: "Login", params: { toRouteName: "Leave"}})
-                    this.$notify.success({
-                      title: "通知",
-                      message: "已释放座位！"
-                    });
+                    // this.$router.push({name: "Login", params: { toRouteName: "Leave"}})
+                    // this.$notify.success({
+                    //   title: "通知",
+                    //   message: "已释放座位！"
+                    // });
+                    this.operationSuccess();
                   } else {
                     this.$notify.error({
                       title: "错误",
@@ -228,6 +233,19 @@ export default {
               message: '已取消!'
             });          
           });
+    },
+
+    operationSuccess() {
+      const message = "操作成功！"
+      this.$alert(message, '提示', {
+            confirmButtonText: '确定',
+            type: 'success',
+            showClose: false,
+            //callback: ()=> { this.$router.push({ name: "Login", params: { toRouteName: "Leave" } }) }
+          })
+          .then(()=> {
+            this.$router.push({ name: "Login", params: { toRouteName: "Leave" } })
+          })
     }
   }
 }
